@@ -133,7 +133,7 @@ int main(void)
     u8 dev_id = Read_ADXL362_DeviceID();
 
 	u8 send_buf[3] = {0x0B, 0x02, 0xFF};  // Read command, DEVID_AD, dummy
-	u8 recv_buf[3];
+	u8 recv_buf[4];
 
 	// Select the slave (CS low)
 	XSpi_SetSlaveSelect(&SpiInstance, 1);
@@ -152,7 +152,7 @@ int main(void)
 
 	while (1) {
 
-		//uart_tx_buffer[0] = counter++;
+		uart_tx_buffer[0] = counter++;
         uart_tx_buffer[0] = recv_buf[2];
         
 		XUartLite_Send(&UartLite, uart_tx_buffer, 1);
@@ -167,7 +167,7 @@ int main(void)
 		XSpi_SetSlaveSelect(&SpiInstance, 1);
 
 		// Full duplex SPI transfer
-		XSpi_Transfer(&SpiInstance, send_buf, recv_buf, 3);
+		XSpi_Transfer(&SpiInstance, send_buf, recv_buf, 4);
 
 		XSpi_SetSlaveSelect(&SpiInstance, 0);
 
@@ -179,7 +179,7 @@ int main(void)
 		toggle_led(10);
 		toggle_led(16);
 
-		usleep(100000);
+		//usleep(50000);
 	}
 
 }
